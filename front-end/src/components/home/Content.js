@@ -9,6 +9,7 @@ class Content extends Component{
                     <GameCard/>
                     <GameCard/>
                     <GameCard/>
+                    <GameCard/>
                 </div>
             </div>
         )

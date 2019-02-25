@@ -12,12 +12,12 @@ class MiniNav extends Component{
         ]
         return(
             <nav>
-                <div className="nav-wrapper">
-                <ul className="left hide-on-med-and-down">
-                    <li><a href="sass.html">Boom</a></li>
-                    <li><a href="badges.html">Roasted</a></li>
-                    <li className="active"><a href="collapsible.html">Inc.</a></li>
-                </ul>
+                <div className="nav-wrapper grey darken-4">
+                    <ul className="left hide-on-med-and-down">
+                        <li><a href="sass.html">Boom</a></li>
+                        <li><a href="badges.html">Roasted</a></li>
+                        <li className="active"><a href="collapsible.html">Inc.</a></li>
+                    </ul>
                 </div>
             </nav>
         )
