@@ -1,9 +1,16 @@
 import React,{Component} from "react";
+import GameCard from "../utility/GameCard";
 
 class Content extends Component{
     render(){
         return(
-            <h1>Content here</h1>
+            <div className="row">
+                <div className="col s12">
+                    <GameCard/>
+                    <GameCard/>
+                    <GameCard/>
+                </div>
+            </div>
         )
     }
 }
