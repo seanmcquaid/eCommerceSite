@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 function MainNav(props){
     return(
@@ -11,8 +11,7 @@ function MainNav(props){
                         <li className="active"><a href="collapsible.html">JavaScript</a></li>
                     </ul>
                 </div>
-        </nav>      
-
+            </nav>      
         </div>
     )
 }

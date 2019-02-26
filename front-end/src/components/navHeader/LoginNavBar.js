@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 function LoginNavBar(props){
     // 1. User clicks and opens the new window via loginTab
@@ -12,13 +12,18 @@ function LoginNavBar(props){
     // 7. It's now available in this promise resolution
     // 8. Put it in localstorage so we can use it next time.
     return(
-        <div className="login-nav-bar row">
-            <div className="left valign-wrapper">WELCOME TO ZAPP</div>
+    <nav className="login-nav-bar grey darken-4">
+        <div className="nav-wrapper">
+            <div className="left ">WELCOME TO ZAPP</div>
             <div className="right">
-                MY CART 0 ITEM - £0.00
-                <button type="submit" class="btn play-button btn-github">Login with github</button>
-            </div>
+            MY CART 0 ITEM - £0.00
+            <button type="submit" className="login-button btn btn-github">
+                <img src="/images/GitHub-Mark-Light-32px.png"/>
+                Login with github
+            </button>
+            </div> 
         </div>
+    </nav>      
     )
 }
 export default LoginNavBar;
