@@ -6,6 +6,8 @@ const config = require("../config")
 const connection = config.pg;
 const db = pgp(connection);
 
+const bcrypt = require("bcrypt-nodejs")
+
 router.get("/auth/github", passport.authenticate("github"));
 
 router.get("/auth/github/callback", passport.authenticate("github"),(req,res,next)=>{
@@ -29,10 +31,32 @@ router.get("/auth/github/callback", passport.authenticate("github"),(req,res,nex
 router.post("/register", (req,res,next)=>{
   // Bcrypt that password
   // check if username exists
-  // if not, insert - userName and hashed password
+  console.log(req.body.username)
+  const checkUsernameQuery = `SELECT * FROM users WHERE username = $1;`;
+  db.query(checkUsernameQuery,[req.body.username]).then((results)=>{
+    console.log(results);
+    if(results.length === 0){
+      // if not, insert - userName and hashed password
+      // user does not exist, lets add them
+      const insertUserQuery = `INSERT INTO users (username)
+      VALUES ($1);`;
+      db.query(insertUserQuery,[req.body.username]).then(()=>{
+        res.json({
+          msg : "userAdded"
+        })
+      })
+    }else {
+      // user exists
+      res.json({
+        msg : "userExists"
+      })
+    }
+  }).catch((error)=>{
+    if(error){throw error};
+  })
   // create a token
   // if so, let react know
-  res.json(req.body)
+  // res.json(req.body)
 })
 
 module.exports = router;
