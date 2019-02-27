@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import loginTab from "../../misc/openWindow";
+import {Link} from "react-router-dom";
 
 class LoginNavBar extends Component{
     // 1. User clicks and opens the new window via loginTab
@@ -27,11 +28,12 @@ class LoginNavBar extends Component{
                 <div className="nav-wrapper">
                     <div className="left ">WELCOME TO ZAPP</div>
                     <div className="right">
-                    MY CART 0 ITEM - £0.00
+                    <Link to="/login">Sign In </Link> or <Link to="/register"> Register</Link>
                     <button type="button" onClick={this.githubAuth} className="login-button btn btn-github">
                         <img src="/images/GitHub-Mark-Light-32px.png"/>
                         Login with github
                     </button>
+                    MY CART 0 ITEM - £0.00
                     </div> 
                 </div>
             </nav>      
