@@ -48,7 +48,8 @@ router.post("/register", (req,res,next)=>{
       db.query(insertUserQuery,[req.body.username,hash,token]).then(()=>{
         res.json({
           msg : "userAdded",
-          token
+          token,
+          username : req.body.username
         })
       })
     }else {
@@ -63,6 +64,50 @@ router.post("/register", (req,res,next)=>{
   // create a token
   // if so, let react know
   // res.json(req.body)
+})
+
+router.post("/login", (req,res,next)=>{
+  const username = req.body.username;
+  const password = req.body.password;
+  // 1. get the row with this username from postgres
+  const selectUserQuery = `SELECT * FROM users where username = $1;`;
+  db.query(selectUserQuery,[username]).then((results)=>{
+    if(results.length === 0){
+      // these arent the droids were looking for. BYE
+      res.json({
+        msg : "badUser"
+      })
+    }else {
+      // user exists
+      // check password
+      const checkHash = bcrypt.compareSync(password, results[0].password);
+      // checkHash is a boolean
+      if(checkHash == true){
+        // match! create a new token
+        const token = randToken.uid(50);
+        // update the DB with the new token
+        const updateTokenQuery = `UPDATE users SET token = $1 where username = $2;`;
+        db.query(updateTokenQuery,[token,username]).catch(()=>{
+          if(error){throw error};
+        });
+        res.json({
+          msg : "loginSuccess",
+          token,
+          username
+        })
+      }else{
+        // bogus password, goodbye
+        // you dont want to sell me deathsticks
+        // you want to go home and rethink your life
+        res.json({
+          msg : "badPassword"
+        })
+      }
+    }
+  }).catch((error)=>{
+    if(error){throw error};
+  })
+
 })
 
 module.exports = router;

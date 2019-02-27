@@ -1,13 +1,36 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import { bindActionCreators } from 'redux';
+import loginAction from "../../actions/loginAction";
+
+
 class Login extends Component{
+    constructor(){
+        super();
+    }
+
+    componentWillReceiveProps(newProps){
+        console.log(newProps)
+    }
+
+    handleLogin = (event)=>{
+        event.preventDefault();
+        const username = event.target[0].value;
+        const password = event.target[1].value;
+        this.props.loginAction({
+            username,
+            password
+        })
+    }
+
     render(){
         return(
         <main>
             <center>
             <div className="container">
                 <div className="z-depth-1 grey lighten-4 row login">
-                <form className="col s12" method="post">
+                <form className="col s12" onSubmit={this.handleLogin}>
                     <div className='row'>
                     <div className='col s12'>
                     </div>
@@ -44,4 +67,18 @@ class Login extends Component{
         )
     }
 }
-export default Login;
+
+function mapStateToProps(state){
+    return{
+        auth : state.auth
+    }
+}
+
+function mapDispatchToProps(dispatcher){
+    return bindActionCreators({
+        loginAction: loginAction
+    },dispatcher)
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login);
+// export default Login;

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import loginTab from "../../misc/openWindow";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 
 class LoginNavBar extends Component{
     // 1. User clicks and opens the new window via loginTab
@@ -23,16 +24,27 @@ class LoginNavBar extends Component{
     }
 
     render(){
+        let rightNavBar = "";
+        if(this.props.auth.username !== undefined){
+            // user is logged in!
+            rightNavBar = <span>Welcome, {this.props.auth.username}</span>
+        } else {
+            // user is not logged in
+            rightNavBar = <span>
+                <Link to="/login">Sign In </Link> or <Link to="/register"> Register</Link>
+                <button type="button" onClick={this.githubAuth} className="login-button btn btn-github">
+                    <img src="/images/GitHub-Mark-Light-32px.png"/>
+                    Login with github
+                </button>
+                </span>;
+        }
+        // console.log(this.props.auth)
         return(
             <nav className="login-nav-bar grey darken-4">
                 <div className="nav-wrapper">
                     <div className="left ">WELCOME TO ZAPP</div>
                     <div className="right">
-                    <Link to="/login">Sign In </Link> or <Link to="/register"> Register</Link>
-                    <button type="button" onClick={this.githubAuth} className="login-button btn btn-github">
-                        <img src="/images/GitHub-Mark-Light-32px.png"/>
-                        Login with github
-                    </button>
+                    {rightNavBar}
                     MY CART 0 ITEM - £0.00
                     </div> 
                 </div>
@@ -40,4 +52,11 @@ class LoginNavBar extends Component{
             )
     }
 }
-export default LoginNavBar;
+
+function mapStateToProps(state){
+    return {
+        auth : state.auth
+    }
+}
+export default connect(mapStateToProps)(LoginNavBar);
+// export default LoginNavBar;
