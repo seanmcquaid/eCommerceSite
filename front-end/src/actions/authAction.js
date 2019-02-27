@@ -12,6 +12,7 @@ export default (formData)=>{
         data : formData
     })
     return{
-        type: "AUTH_ACTION"
+        type: "AUTH_ACTION",
+        payload : axiosPromise
     }
 }

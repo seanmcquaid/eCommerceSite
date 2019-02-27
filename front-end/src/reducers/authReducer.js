@@ -6,6 +6,7 @@ export default (state = [],action)=>{
     // sisgnature takes state and we default it to an empty array
     if(action.type === "AUTH_ACTION"){
         // I am going to update because I care
+        console.log(action.payload.data)
         return action.payload.data
     } else if (action.type === "LOGOUT"){
         return []
