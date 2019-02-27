@@ -6,7 +6,9 @@ const config = require("../config")
 const connection = config.pg;
 const db = pgp(connection);
 
-const bcrypt = require("bcrypt-nodejs")
+const bcrypt = require("bcrypt-nodejs");
+const randToken = require("rand-token");
+
 
 router.get("/auth/github", passport.authenticate("github"));
 
@@ -38,11 +40,15 @@ router.post("/register", (req,res,next)=>{
     if(results.length === 0){
       // if not, insert - userName and hashed password
       // user does not exist, lets add them
-      const insertUserQuery = `INSERT INTO users (username)
-      VALUES ($1);`;
-      db.query(insertUserQuery,[req.body.username]).then(()=>{
+      const insertUserQuery = `INSERT INTO users (username,password,token)
+      VALUES ($1,$2,$3);`;
+      const token = randToken.uid(50);
+        // use bcrypt.hashSync to make their password something EVIL
+      const hash = bcrypt.hashSync(req.body.password);
+      db.query(insertUserQuery,[req.body.username,hash,token]).then(()=>{
         res.json({
-          msg : "userAdded"
+          msg : "userAdded",
+          token
         })
       })
     }else {
