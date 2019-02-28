@@ -3,6 +3,8 @@ import Home from "./components/home/Home";
 import Headers from "./components/navHeader/Headers";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
+import Game from "./components/pages/Game";
+import Cart from "./components/pages/Cart";
 
 import "./App.css";
 import {BrowserRouter as Router, Route} from "react-router-dom";
@@ -17,6 +19,7 @@ class App extends Component {
             <Route exact path="/" component={Home}/>
             <Route exact path="/login" component={Login}/>
             <Route exact path="/register" component={Register}/>
+            <Route exact path="/game/:id" component={Game}/>
           </div>
         </div>
       </Router>
