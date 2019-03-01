@@ -1,71 +1,78 @@
-const express = require("express");
-const router = express.Router();
-const db = require("../database");
+var express = require('express');
+var router = express.Router();
+const db = require('../database');
 
-router.post("/getCart", (req,res,next)=>{
+// /cart/getCart
+router.post('/getCart',(req, res)=>{
     // res.json("test");
     const token = req.body.token;
-    const getUser = `SELECT id from users WHERE token = $1;`;
-    db.query(getUser, [token]).then((results)=>{
+    console.log(token)
+    const getUser = `SELECT id from users WHERE token = $1`
+    db.query(getUser,[token]).then((results)=>{
         if(results.length === 0){
+            // This is a bad token. User is confused or a liar or a locationvar.
             res.json({
-                msg : "badToken"
+                msg: "badToken"
             })
-        } else {
+        }else{
             const uid = results[0].id;
             const getCartTotals = `SELECT * FROM cart 
-            INNER JOIN games on games.id = cart.gid
-            where uid = $1`;
+                INNER JOIN games on games.id = cart.gid
+                WHERE uid = $1`;
             db.query(getCartTotals,[uid]).then((results)=>{
                 const totals = `SELECT SUM(price) as totalPrice, count(price) as totalItems
-                FROM cart
-                INNER JOIN games on games.id = card.gid
-                WHERE uid = $1`;
-                db.query(totals,[uid]).then((totalNumbers)=>{
-                    const responseData = {
-                        contents : results,
-                        total : totalNumbers.totalPrice,
-                        items : totalNumbers.totalItems
-                    }
-                    res.json(responseData);
-                })
+                    FROM cart
+                    INNER JOIN games on games.id = cart.gid
+                    WHERE uid = $1`;
+                    db.query(totals,[uid]).then((totalNumbers)=>{
+                        const responseData = {
+                            contents: results,
+                            total: totalNumbers.totalPrice,
+                            items: totalNumbers.totalItems
+                        }
+                        res.json(responseData);
+                    })
             })
         }
     }).catch((error)=>{
-        if(error){throw error};
+        if(error){throw error;} 
     })
 })
 
-router.post("/updateCart", (req,res,next)=>{
+// /cart/getCart
+router.post('/updateCart',(req, res)=>{
     // res.json("test");
+    console.log(req.body);
     const token = req.body.token;
     const itemId = req.body.itemId
-    console.log(token);
-    const getUser = `SELECT id from users WHERE token = $1;`;
-    db.query(getUser, [token]).then((results)=>{
+    const getUser = `SELECT id from users WHERE token = $1`
+    db.query(getUser,[token]).then((results)=>{
         if(results.length === 0){
+            // This is a bad token. User is confused or a liar or a locationvar.
             res.json({
-                msg : "badToken"
+                msg: "badToken"
             })
-        } else {
-            const uid = results[0].id
-            const addToCartQuery = `INSERT INTO cart (uid,gid,date)
-            VALUES
-            ($1,$2,NOW())`;
+        }else{
+            // this is a legit token. I know what user this is.
+            const uid = results[0].id;
+            const addToCartQuery = `INSERT INTO cart (uid,gid,dateadded)
+                VALUES
+                ($1,$2,NOW())`
             db.query(addToCartQuery,[uid,itemId]).then(()=>{
-                const getCartTotals = `SELECT * from cart where uid = $1;`;
+                const getCartTotals = `SELECT * FROM cart WHERE uid = $1`
                 db.query(getCartTotals,[uid]).then((results)=>{
-                    res.json(results);
+                    res.json(results)
                 }).catch((error)=>{
-                    if(error){throw error};
+                    if(error){throw error;}
                 })
             }).catch((error)=>{
-                if(error){throw error}
+                if(error){throw error;}
             })
         }
     }).catch((error)=>{
-        if(error){throw error};
+        if(error){throw error;} 
     })
 })
+
 
 module.exports = router;
