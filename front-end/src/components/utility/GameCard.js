@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 class GameCard extends Component {
     render(){
-        console.log(this.props)
+        // console.log(this.props)
         const images = this.props.data.screenshot_url.split(",");
         const rand = Math.floor(Math.random() * images.length);
         const image = images[rand];

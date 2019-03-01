@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import GetCart from '../../actions/getCart';
+import getCart from '../../actions/getCart';
 import { Link } from 'react-router-dom';
 import CartRow from '../utility/CartRow';
 import axios from 'axios';
@@ -47,7 +47,7 @@ class Cart extends Component{
     }
 
 	componentDidMount(){
-		console.log(this.props.auth);
+		// console.log(this.props.auth);
 		if(this.props.auth.token === undefined){
 			// if the user has no token... they should not be here. Goodbye.
 			// this.props.history.push('/login')
@@ -103,7 +103,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
 	return bindActionCreators({
-		getCart: GetCart
+		getCart: getCart
 	},dispatch)
 }
 

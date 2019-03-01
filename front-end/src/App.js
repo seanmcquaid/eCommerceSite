@@ -20,6 +20,7 @@ class App extends Component {
             <Route exact path="/login" component={Login}/>
             <Route exact path="/register" component={Register}/>
             <Route exact path="/game/:id" component={Game}/>
+            <Route exact path="/cart" component={Cart}/>
           </div>
         </div>
       </Router>

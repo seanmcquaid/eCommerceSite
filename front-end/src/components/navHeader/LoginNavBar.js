@@ -45,7 +45,7 @@ class LoginNavBar extends Component{
                     <div className="left ">WELCOME TO ZAPP</div>
                     <div className="right">
                     {rightNavBar}
-                    MY CART 0 ITEM - £0.00
+                    <Link to="/cart">MY CART 0 ITEM - £0.00</Link>
                     </div> 
                 </div>
             </nav>      
