@@ -23,6 +23,8 @@ router.post("/getCart", (req,res,next)=>{
 router.post("/updateCart", (req,res,next)=>{
     // res.json("test");
     const token = req.body.token;
+    const itemId = req.body.itemId
+    console.log(token);
     const getUser = `SELECT id from users WHERE token = $1;`;
     db.query(getUser, [token]).then((results)=>{
         if(results.length === 0){
@@ -33,9 +35,9 @@ router.post("/updateCart", (req,res,next)=>{
             const uid = results[0].id
             const addToCartQuery = `INSERT INTO cart (uid,gid,date)
             VALUES
-            ($1,$2,NOW());`;
+            ($1,$2,NOW())`;
             db.query(addToCartQuery,[uid,itemId]).then(()=>{
-                const getCartTotals = `SELECT * from cart where uid = ?;`;
+                const getCartTotals = `SELECT * from cart where uid = $1;`;
                 db.query(getCartTotals,[uid]).then((results)=>{
                     res.json(results);
                 }).catch((error)=>{

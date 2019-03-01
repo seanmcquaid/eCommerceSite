@@ -32,8 +32,11 @@ class Game extends Component{
 
     addtoCart= (event)=>{
         // token, item
+        console.log(this.props)
         const token = this.props.auth.token;
+        console.log(token);
         const gid = this.props.match.params.id;
+        console.log(gid)
         this.props.updateCart(token,gid)
     }
 
@@ -66,7 +69,7 @@ class Game extends Component{
                                 <input type="text" name="quantity"/>
                             </div>
                             <div className="col s2">
-                                <button onClick={this.props.addtoCart}>ADD TO CART</button>
+                                <button onClick={this.addtoCart}>ADD TO CART</button>
                             </div>
                         </div>
                     </div>

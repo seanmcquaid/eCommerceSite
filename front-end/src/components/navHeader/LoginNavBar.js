@@ -42,7 +42,7 @@ class LoginNavBar extends Component{
         return(
             <nav className="login-nav-bar grey darken-4">
                 <div className="nav-wrapper">
-                    <div className="left ">WELCOME TO ZAPP</div>
+                    <div className="left "><Link to="/">WELCOME TO ZAPPGAMES</Link></div>
                     <div className="right">
                     {rightNavBar}
                     <Link to="/cart">MY CART 0 ITEM - £0.00</Link>
