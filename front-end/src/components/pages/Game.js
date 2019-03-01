@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './game.css';
 import axios from "axios";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import updateCart from "../../actions/updateCart";
 
 class Game extends Component{
     constructor(){
@@ -25,6 +28,13 @@ class Game extends Component{
         }).catch((error)=>{
             if(error){throw error};
         })
+    }
+
+    addtoCart= (event)=>{
+        // token, item
+        const token = this.props.auth.token;
+        const gid = this.props.match.params.id;
+        this.props.updateCart(token,gid)
     }
 
     render(){
@@ -56,7 +66,7 @@ class Game extends Component{
                                 <input type="text" name="quantity"/>
                             </div>
                             <div className="col s2">
-                                <button>ADD</button>
+                                <button onClick={this.props.addtoCart}>ADD TO CART</button>
                             </div>
                         </div>
                     </div>
@@ -66,4 +76,16 @@ class Game extends Component{
     }
 }
 
-export default Game;
+function mapStateToProps(state){
+    return{
+        auth : state.auth
+    }
+}
+
+function mapDispatchToProps(dispatcher){
+    return bindActionCreators({
+        updateCart : updateCart
+    },dispatcher)
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Game);
